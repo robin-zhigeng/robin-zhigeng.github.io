@@ -108,20 +108,25 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="程序员藏经阁">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="1. 启动命令12nohup ./bin/jstorm nimbus &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 &amp;amp;nohup ./bin/jstorm supervisor &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 &amp;amp; 2. 动态调整Executor和Worker12345678# 调整Workerjstorm rebalance topology-name">
+<meta name="keywords" content="jstorm,storm,实时计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jstorm常用管理命令">
+<meta property="og:url" content="http://yoursite.com/2018/06/20/jstorm常用管理命令/index.html">
 <meta property="og:site_name" content="程序员藏经阁">
+<meta property="og:description" content="1. 启动命令12nohup ./bin/jstorm nimbus &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 &amp;amp;nohup ./bin/jstorm supervisor &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 &amp;amp; 2. 动态调整Executor和Worker12345678# 调整Workerjstorm rebalance topology-name">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-20T06:24:12.904Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="程序员藏经阁">
+<meta name="twitter:title" content="jstorm常用管理命令">
+<meta name="twitter:description" content="1. 启动命令12nohup ./bin/jstorm nimbus &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 &amp;amp;nohup ./bin/jstorm supervisor &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 &amp;amp; 2. 动态调整Executor和Worker12345678# 调整Workerjstorm rebalance topology-name">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/20/jstorm常用管理命令/"/>
 
 
 
@@ -131,7 +136,7 @@
   };
 </script>
 
-  <title>程序员藏经阁</title>
+  <title>jstorm常用管理命令 | 程序员藏经阁</title>
   
 
 
@@ -178,8 +183,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -216,7 +220,7 @@
         
         
           
-          <li class="menu-item menu-item-home menu-item-active">
+          <li class="menu-item menu-item-home">
     <a href="/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
@@ -284,9 +288,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -318,11 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/20/jstorm常用管理命令/" itemprop="url">
-                  jstorm常用管理命令
-                </a>
+          <h1 class="post-title" itemprop="name headline">jstorm常用管理命令
               
             
           </h1>
@@ -410,13 +410,9 @@
       
 
       
-        
-          
-            <h2 id="1-启动命令"><a href="#1-启动命令" class="headerlink" title="1. 启动命令"></a>1. 启动命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup ./bin/jstorm nimbus &gt; /dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">nohup ./bin/jstorm supervisor &gt; /dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+        <h2 id="1-启动命令"><a href="#1-启动命令" class="headerlink" title="1. 启动命令"></a>1. 启动命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup ./bin/jstorm nimbus &gt; /dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">nohup ./bin/jstorm supervisor &gt; /dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
 <h2 id="2-动态调整Executor和Worker"><a href="#2-动态调整Executor和Worker" class="headerlink" title="2. 动态调整Executor和Worker"></a>2. 动态调整Executor和Worker</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 调整Worker</span></span><br><span class="line">jstorm rebalance topology-name -n 10</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整Executor（注意：spout和bolt的并行数，最多可以调整到它的taskNum，默认情况下，taskNum是和你设置的 paralismNum相同的。）</span></span><br><span class="line">jstorm rebalance topology-name -e bolt1=3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据配置文件调整</span></span><br><span class="line">jstorm rebalance -r topology-name conf.yaml</span><br></pre></td></tr></table></figure>
 <h2 id="动态调整配置"><a href="#动态调整配置" class="headerlink" title="动态调整配置"></a>动态调整配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstorm update_topology topology-name -conf conf.yaml</span><br></pre></td></tr></table></figure>
-          
-        
       
     </div>
 
@@ -434,14 +430,24 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/jstorm/" rel="tag"># jstorm</a>
+          
+            <a href="/tags/storm/" rel="tag"># storm</a>
+          
+            <a href="/tags/实时计算/" rel="tag"># 实时计算</a>
+          
+        </div>
+      
+
+      
+      
+      
 
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -451,14 +457,19 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -479,8 +490,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -557,6 +577,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-启动命令"><span class="nav-number">1.</span> <span class="nav-text">1. 启动命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-动态调整Executor和Worker"><span class="nav-number">2.</span> <span class="nav-text">2. 动态调整Executor和Worker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态调整配置"><span class="nav-number">3.</span> <span class="nav-text">动态调整配置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -684,6 +720,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
 
   
 
