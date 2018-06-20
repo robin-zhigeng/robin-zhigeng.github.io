@@ -108,15 +108,18 @@
 
 
 
-  <meta name="keywords" content="Java,JVM">
+  <meta name="description" content="1234567891011121314151617181920212223242526272829private void init() &amp;#123;    if (StringUtils.isBlank(clusterName) || StringUtils.isBlank(clusterHosts)) &amp;#123;        throw new IllegalArgumentExcepti">
+<meta name="keywords" content="Java,JVM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Greys使用实践">
 <meta property="og:url" content="http://yoursite.com/2018/06/20/Greys使用实践/index.html">
 <meta property="og:site_name" content="程序员藏经阁">
+<meta property="og:description" content="1234567891011121314151617181920212223242526272829private void init() &amp;#123;    if (StringUtils.isBlank(clusterName) || StringUtils.isBlank(clusterHosts)) &amp;#123;        throw new IllegalArgumentExcepti">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-20T05:50:47.204Z">
+<meta property="og:updated_time" content="2018-06-20T06:15:00.417Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Greys使用实践">
+<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829private void init() &amp;#123;    if (StringUtils.isBlank(clusterName) || StringUtils.isBlank(clusterHosts)) &amp;#123;        throw new IllegalArgumentExcepti">
 
 
 
@@ -344,7 +347,7 @@
                 
               
 
-              <time title="创建时间：2018-06-20 13:48:57 / 修改时间：13:50:47" itemprop="dateCreated datePublished" datetime="2018-06-20T13:48:57+08:00">2018-06-20</time>
+              <time title="创建时间：2018-06-20 13:48:57 / 修改时间：14:15:00" itemprop="dateCreated datePublished" datetime="2018-06-20T13:48:57+08:00">2018-06-20</time>
             
 
             
@@ -400,7 +403,7 @@
       
 
       
-        
+        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (StringUtils.isBlank(clusterName) || StringUtils.isBlank(clusterHosts)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Invalid cluster name or hosts"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Settings settings = Settings.builder()</span><br><span class="line">            .put(<span class="string">"cluster.name"</span>, clusterName)</span><br><span class="line">            .put(<span class="string">"client.transport.sniff"</span>, <span class="keyword">true</span>).build();</span><br><span class="line">    <span class="keyword">final</span> TransportClient tmpClient = <span class="keyword">new</span> PreBuiltTransportClient(settings);</span><br><span class="line">    String[] hostPairs = clusterHosts.split(<span class="string">","</span>);</span><br><span class="line">    <span class="keyword">if</span> (hostPairs.length &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Empty cluster hosts"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Arrays.stream(hostPairs).forEach(hostPair -&gt; &#123;</span><br><span class="line">        String[] kv = hostPair.split(<span class="string">":"</span>);</span><br><span class="line">        <span class="keyword">if</span> (kv.length != <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Invalid cluster hosts: "</span> + hostPair);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> port = NumberUtils.toInt(kv[<span class="number">1</span>].trim(), <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (port &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Invalid cluster host port: "</span> + hostPair);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            tmpClient.addTransportAddress(<span class="keyword">new</span> TransportAddress(InetAddress.getByName(kv[<span class="number">0</span>].trim()), port));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Invalid cluster host: "</span> + hostPair);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    client = tmpClient;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -519,10 +522,6 @@
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
                     
-                    
-                      
-                    
-                      
                     
                       
                     
